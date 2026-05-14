@@ -102,11 +102,11 @@ export default function GrimosLanding() {
             {/* Logo + Slogan */}
             <div className="flex items-center gap-3">
               <img 
-                src="/GRIMOS_logo_png.png" 
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/GRIMOS%20logo%20png-cgbiFRP00xJr5blwVxQE7wpr6ZhPyv.png" 
                 alt="GRIMOS" 
-                height={40} 
+                height={36} 
                 width="auto"
-                className="h-10 w-auto"
+                className="h-9 w-auto"
               />
               <span className="hidden sm:inline-block text-muted-foreground text-sm">
                 — {t.nav.slogan}
