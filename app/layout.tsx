@@ -50,9 +50,9 @@ export default function RootLayout({
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
         
-        {/* Google Tag (gtag.js) */}
+        {/* Google tag (gtag.js) */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=YOUR_GOOGLE_TAG_ID"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18162540311"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -60,7 +60,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'YOUR_GOOGLE_TAG_ID');
+            gtag('config', 'AW-18162540311');
           `}
         </Script>
 

@@ -72,12 +72,10 @@ export default function GrimosLanding() {
     if (typeof window !== 'undefined' && (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq) {
       (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq('track', 'Lead')
     }
-    // Track Lead event in Google Ads
+    // Track conversion in Google Ads
     if (typeof window !== 'undefined' && (window as typeof window & { gtag?: (...args: unknown[]) => void }).gtag) {
       (window as typeof window & { gtag?: (...args: unknown[]) => void }).gtag('event', 'conversion', {
-        'send_to': 'YOUR_GOOGLE_TAG_ID/YOUR_CONVERSION_LABEL',
-        'event_category': 'Lead',
-        'event_label': 'Zvárač prihlaska'
+        'send_to': 'AW-18162540311'
       })
     }
 
@@ -103,9 +101,13 @@ export default function GrimosLanding() {
           <div className="flex justify-between items-center h-16">
             {/* Logo + Slogan */}
             <div className="flex items-center gap-3">
-              <span className="font-heading text-2xl font-bold text-foreground tracking-tight">
-                {t.nav.logo}
-              </span>
+              <img 
+                src="/GRIMOS_logo_png.png" 
+                alt="GRIMOS" 
+                height={40} 
+                width="auto"
+                className="h-10 w-auto"
+              />
               <span className="hidden sm:inline-block text-muted-foreground text-sm">
                 — {t.nav.slogan}
               </span>
