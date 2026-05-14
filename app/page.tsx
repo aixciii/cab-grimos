@@ -42,6 +42,21 @@ export default function GrimosLanding() {
     }
   }
 
+  const trackLead = () => {
+    // Meta Pixel
+    if (typeof window !== 'undefined' && (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq) {
+      (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq('track', 'Lead')
+    }
+    // Google Ads
+    if (typeof window !== 'undefined' && (window as typeof window & { gtag?: (...args: unknown[]) => void }).gtag) {
+      (window as typeof window & { gtag?: (...args: unknown[]) => void }).gtag('event', 'conversion', {
+        'send_to': 'YOUR_GOOGLE_TAG_ID/YOUR_CONVERSION_LABEL',
+        'event_category': 'Lead',
+        'event_label': 'Mam zaujem button'
+      })
+    }
+  }
+
   const whatsappUrl = 'https://wa.me/421910344428?text=Zaujima%20ma%20pozicia%20zvaraca'
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,10 +70,7 @@ export default function GrimosLanding() {
 
     // Track Lead event in Meta Pixel
     if (typeof window !== 'undefined' && (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq) {
-      (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq('track', 'Lead', {
-        content_name: 'Zvárač CO2/MIG/MAG',
-        content_category: 'Job Application'
-      })
+      (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq('track', 'Lead')
     }
     // Track Lead event in Google Ads
     if (typeof window !== 'undefined' && (window as typeof window & { gtag?: (...args: unknown[]) => void }).gtag) {
@@ -162,7 +174,7 @@ export default function GrimosLanding() {
             </div>
             <div className="flex flex-wrap gap-3 mb-4">
               <button
-                onClick={scrollToForm}
+                onClick={() => { trackLead(); scrollToForm(); }}
                 className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded font-medium hover:bg-primary/90 transition-colors"
               >
                 {t.hero.cta}
