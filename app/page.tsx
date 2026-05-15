@@ -59,14 +59,26 @@ export default function GrimosLanding() {
 
   const whatsappUrl = 'https://wa.me/421910344428?text=Zaujima%20ma%20pozicia%20zvaraca'
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const form = e.currentTarget
     const formData = new FormData(form)
-    const name = formData.get('name')
-    const phone = formData.get('phone')
-    const email = formData.get('email')
-    const experience = formData.get('experience')
+    const name = (formData.get('name') as string)?.trim()
+    const phone = (formData.get('phone') as string)?.trim()
+    const email = (formData.get('email') as string)?.trim()
+    const experience = (formData.get('experience') as string)?.trim()
+    const gdpr = formData.get('gdpr')
+
+    if (!name || !phone) {
+      alert('Vyplňte meno a telefón.')
+      return
+    }
+    if (!gdpr) {
+      alert('Potvrďte súhlas s GDPR.')
+      return
+    }
 
     // Track Lead event in Meta Pixel
     if (typeof window !== 'undefined' && (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq) {
@@ -79,11 +91,22 @@ export default function GrimosLanding() {
       })
     }
 
-    const subject = encodeURIComponent(`Prihláška - ${name}`)
-    const body = encodeURIComponent(
-      `Meno: ${name}\nTelefón: ${phone}\nEmail: ${email}\n\nSkúsenosti:\n${experience}`
-    )
-    window.location.href = `mailto:grimos@grimos.sk?subject=${subject}&body=${body}`
+    try {
+      const response = await fetch('https://formspree.io/f/xpqbvzqb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email, experience })
+      })
+
+      if (response.ok) {
+        setFormStatus('success')
+        form.reset()
+      } else {
+        setFormStatus('error')
+      }
+    } catch {
+      setFormStatus('error')
+    }
   }
 
   const offerIcons = [Wallet, CalendarDays, Clock, Bus, Home, FileText]
@@ -368,6 +391,16 @@ export default function GrimosLanding() {
 
             {/* Right - Form */}
             <div className="bg-card border border-border rounded-[6px] p-6 shadow-sm">
+              {formStatus === 'success' && (
+                <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-[6px] text-green-800">
+                  ✓ Ďakujeme! Ozveme sa do 24 hodín.
+                </div>
+              )}
+              {formStatus === 'error' && (
+                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-[6px] text-red-800">
+                  Chyba. Skúste nás kontaktovať cez WhatsApp.
+                </div>
+              )}
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">
